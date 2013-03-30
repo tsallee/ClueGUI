@@ -211,35 +211,35 @@ public class GameActionTests {
 	public void TestTargetRandomSelection() {
 		ComputerPlayer player = new ComputerPlayer();
 		// Pick a location with no rooms in target, just four targets
-		board.calcTargets(2, 6, 2);
-		int loc_0_6_Tot = 0;
-		int loc_1_5_Tot = 0;
-		int loc_3_5_Tot = 0;
-		int loc_4_6_Tot = 0;
+		board.calcTargets(2, 7, 2);
+		int loc_0_7_Tot = 0;
+		int loc_1_8_Tot = 0;
+		int loc_3_8_Tot = 0;
+		int loc_4_7_Tot = 0;
 				
 		// Run the test 100 times
 		for (int i=0; i<100; i++) {
 			BoardCell selected = player.pickLocation(board.getTargets());
-			if (selected == board.getCellAt(board.calcIndex(0, 6)))
-				loc_0_6_Tot++;
-			else if (selected == board.getCellAt(board.calcIndex(1, 5)))
-				loc_1_5_Tot++;
-			else if (selected == board.getCellAt(board.calcIndex(3, 5)))
-				loc_3_5_Tot++;
-			else if (selected == board.getCellAt(board.calcIndex(4, 6)))
-				loc_4_6_Tot++;
+			if (selected == board.getCellAt(board.calcIndex(0, 7)))
+				loc_0_7_Tot++;
+			else if (selected == board.getCellAt(board.calcIndex(1, 8)))
+				loc_1_8_Tot++;
+			else if (selected == board.getCellAt(board.calcIndex(3, 8)))
+				loc_3_8_Tot++;
+			else if (selected == board.getCellAt(board.calcIndex(4, 7)))
+				loc_4_7_Tot++;
 			else
 				fail("Invalid target selected");
 		}
 		
 		// Ensure we have 100 total selections (fail should also ensure)
-		assertEquals(100, loc_0_6_Tot + loc_1_5_Tot + loc_3_5_Tot + loc_4_6_Tot);
+		assertEquals(100, loc_0_7_Tot + loc_1_8_Tot + loc_3_8_Tot + loc_4_7_Tot);
 		
 		// Ensure each target was selected more than once
-		assertTrue(loc_0_6_Tot > 1);
-		assertTrue(loc_1_5_Tot > 1);
-		assertTrue(loc_3_5_Tot > 1);
-		assertTrue(loc_4_6_Tot > 1);
+		assertTrue(loc_0_7_Tot > 1);
+		assertTrue(loc_1_8_Tot > 1);
+		assertTrue(loc_3_8_Tot > 1);
+		assertTrue(loc_4_7_Tot > 1);
 	}
 
 	@Test

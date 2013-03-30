@@ -15,7 +15,7 @@ public class CRBoardAdjTargetTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		board = new Board("ClueLayout.csv", "ClueLegend.txt");
+		board = new Board("ClueLayoutRADER.csv", "ClueLegendRADER.txt");
 		try{
 			board.loadConfigFiles();
 		}
