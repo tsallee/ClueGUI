@@ -172,8 +172,12 @@ public class Board extends JPanel {
 						else if ( secondChar == 'R' )
 							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.RIGHT));
 						
-						else
+						else {
+							System.out.print(firstChar);
+							System.out.print(secondChar);
+							System.out.println();
 							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.NONE));
+						}
 						
 					}
 					
