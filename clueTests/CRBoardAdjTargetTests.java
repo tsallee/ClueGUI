@@ -226,9 +226,6 @@ public class CRBoardAdjTargetTests {
 	public void testTargetsSixSteps() {
 		board.calcTargets(14, 0, 6);
 		Set<BoardCell> targets = board.getTargets();
-		for(BoardCell b : targets){
-			System.out.println(b.getRow() + " " + b.getColumn());
-		}
 		//Assert.assertEquals(7, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 6))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 5))));	

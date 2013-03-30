@@ -34,7 +34,7 @@ public class ClueGame extends JPanel {
 		try {
 			board.loadConfigFiles();
 		} catch (BadConfigFormatException e) {
-			System.out.println();
+			System.out.println(e);
 		}
 		loadPeople();
 		loadCards();
@@ -56,17 +56,12 @@ public class ClueGame extends JPanel {
 				row = Integer.parseInt(sep[2]);
 				column = Integer.parseInt(sep[3]);
 				startPosition = board.calcIndex(row, column);
-				System.out.println(row + " " + column);
-				System.out.println(startPosition);
 				if ( flag ) {
 					players.add(new HumanPlayer(name, startPosition, color));
 					flag = false;
 				} else {
 					players.add(new ComputerPlayer(name, startPosition, color));
 				}
-//				for ( Player p : players ) {
-//					System.out.println(p.getLocation());
-//				}
 			}
 			
 		} catch (Exception e) {
@@ -105,7 +100,6 @@ public class ClueGame extends JPanel {
 		board.paintComponent(g);
 		for ( Player p : players ) {
 			p.draw(g, board);
-			//System.out.println( p.getLocation() );
 		}
 		drawRooms(g, board);
 	}

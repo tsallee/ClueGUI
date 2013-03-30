@@ -128,7 +128,7 @@ public class CRBoardInitTests {
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
 		// overloaded Board ctor takes config file names
-		Board b = new Board("ClueLayoutBadColumns.csv", "ClueLegend.txt");
+		Board b = new Board("ClueLayoutBadColumns.csv", "ClueLegendRADER.txt");
 		// You may change these calls if needed to match your function names
 		// My loadConfigFiles has a try/catch, so I can't call it directly to
 		// see test throwing the BadConfigFormatException
@@ -139,7 +139,7 @@ public class CRBoardInitTests {
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
 		// overloaded Board ctor takes config file name
-		Board b = new Board("ClueLayoutBadRoom.csv", "ClueLegend.txt");
+		Board b = new Board("ClueLayoutBadRoom.csv", "ClueLegendRADER.txt");
 		b.loadRoomConfig();
 		b.loadBoardConfig();
 	}

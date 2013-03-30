@@ -166,9 +166,6 @@ static Board b;
 		
 		b.calcTargets(7, 11, 1);
 		Set<BoardCell> targets =  b.getTargets();
-		for(BoardCell b : targets){
-			System.out.println(b.getRow() + " " + b.getColumn());
-		}
 		Assert.assertTrue(targets.contains(b.getCellAt(b.calcIndex(7, 10))));
 		Assert.assertTrue(targets.contains(b.getCellAt(b.calcIndex(7, 12))));
 		Assert.assertTrue(targets.contains(b.getCellAt(b.calcIndex(6, 11))));
