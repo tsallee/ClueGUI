@@ -173,10 +173,34 @@ public class Board extends JPanel {
 							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.RIGHT));
 						
 						else {
-							System.out.print(firstChar);
-							System.out.print(secondChar);
-							System.out.println();
-							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.NONE));
+							RoomCell rc = new RoomCell(rowCounter, i+1, firstChar, DoorDirection.NONE);
+							if ( firstChar == 'S' )
+								rc.setName("Study");
+							else if ( firstChar == 'H')
+								rc.setName("Hall");
+							else if ( firstChar == 'O')
+								rc.setName("Lounge");
+							else if ( firstChar == 'H')
+								rc.setName("Hall");
+							else if ( firstChar == 'L')
+								rc.setName("Library");
+							else if ( firstChar == 'D')
+								rc.setName("Dining Room");
+							else if ( firstChar == 'B')
+								rc.setName("Billiard Room");
+							else if ( firstChar == 'C')
+								rc.setName("Conservatory");
+							else if ( firstChar == 'A')
+								rc.setName("Ballroom");
+							else if ( firstChar == 'K')
+								rc.setName("Kitchen");
+							else if ( firstChar == 'X')
+								rc.setName("Closet");
+							else {
+								System.out.print(firstChar);
+								System.out.println(secondChar);
+							}
+							cells.add(rc);
 						}
 						
 					}
