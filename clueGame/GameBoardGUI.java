@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,20 +27,16 @@ public class GameBoardGUI extends JFrame {
 		} catch ( Exception e) {
 			System.out.println(e.getMessage());
 		}
-		//Set up frame
-		JFrame frame = new JFrame();
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
-		frame.setLayout(new BorderLayout() );
-		frame.setSize(700, 700);
-		frame.setTitle("Clue Game");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout() );
+		setSize(670, 710);
+		setTitle("Clue Game");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.add(game, BorderLayout.CENTER);
-		frame.add(menuBar, BorderLayout.NORTH);
-		frame.setVisible(true);
-
+		add(game, BorderLayout.CENTER);
+		setVisible(true);
 	}
 	
 	public void draw() {
@@ -71,12 +69,12 @@ public class GameBoardGUI extends JFrame {
 	
 	private JMenuItem createDetectiveNotesItem() {
 		JMenuItem item = new JMenuItem("Detective Notes");
-		class MenuItemListener implements ActionListener {
+		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//IMPLEMENT THIS!
+				DetectiveNotesDialog detectiveDialog = new DetectiveNotesDialog();
+				detectiveDialog.setVisible(true);
 			}
-		}
-		item.addActionListener(new MenuItemListener());
+	    });
 		return item;
 	}
 	

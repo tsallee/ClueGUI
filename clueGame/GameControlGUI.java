@@ -6,25 +6,23 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class GameControlGUI {
-	JFrame frame;
+public class GameControlGUI extends JFrame {
 
 	public GameControlGUI() {
 		//Set up frame.
-		frame = new JFrame();
-		frame.setSize(800, 200);
-		frame.setTitle("Game Control GUI");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(2, 0));
+		setSize(800, 200);
+		setTitle("Game Control GUI");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new GridLayout(2, 0));
 		
 		//Set up north panel.
 		ControlTopPanel panelNorth = new ControlTopPanel();
-		frame.add(panelNorth, BorderLayout.NORTH);
+		add(panelNorth);
 		
 		//Set up south panel.
 		ControlBottomPanel panelSouth = new ControlBottomPanel();
-		frame.add(panelSouth, BorderLayout.SOUTH);
-		frame.setVisible(true);
+		add(panelSouth);
+		setVisible(true);
 
 	}
 	
