@@ -4,6 +4,9 @@ import java.awt.Graphics;
 
 public class BoardCell {
 	
+	protected int yDimension;
+	protected int xDimension;
+
 	Integer row, column;
 	protected int width, height, x, y;
 
@@ -18,7 +21,6 @@ public class BoardCell {
 	}
 	
 	public void draw(Graphics g, Board b) {
-		
 	}
 	
 	public boolean isWalkway(){
@@ -39,6 +41,22 @@ public class BoardCell {
 
 	public Integer getColumn() {
 		return column;
+	}
+	
+	public int getyDimension() {
+		return yDimension;
+	}
+
+	public void setyDimension(int yDimension) {
+		this.yDimension = yDimension;
+	}
+
+	public int getxDimension() {
+		return xDimension;
+	}
+
+	public void setxDimension(int xDimension) {
+		this.xDimension = xDimension;
 	}
 
 }

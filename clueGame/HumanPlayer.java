@@ -13,16 +13,6 @@ public class HumanPlayer extends Player {
 		super(name, location);
 	}
 	
-	@Override
-	public void draw(Graphics g, Board b) {
-		int x = calcColumn(location, b)*GameBoardGUI.getBoardLength()/b.getNumColumns();
-		int y = calcRow(location, b)*GameBoardGUI.getBoardHeight()/b.getNumRows();
-		int width = GameBoardGUI.getBoardLength()/b.getNumColumns();
-		int height = GameBoardGUI.getBoardHeight()/b.getNumRows();
-		g.setColor(color);
-		g.fillOval(x, y, width, height);
-	}
-	
 	public HumanPlayer(String name, int location, String color) {
 		super(name, location, color);
 	}

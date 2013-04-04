@@ -5,9 +5,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JComponent;
+
+import com.sun.xml.internal.bind.v2.runtime.Location;
+
 public class Player {
 	
-	Integer row, column;
+	protected int row, column;
 	protected int width, height, x, y;
 	
 	protected String name;
@@ -15,6 +19,11 @@ public class Player {
 	protected Color color;
 	protected int location;
 	protected Suggestion suggestion;
+	
+	protected int yDimension;
+	protected int xDimension;
+	
+	protected Board board;
 	
 	public Player() {
 		name = null;
@@ -119,23 +128,53 @@ public class Player {
 	}
 	
 	public void draw(Graphics g, Board b) {
-		x = calcColumn(location, b)*GameBoardGUI.getBoardLength()/b.getNumColumns();
-		y = calcRow(location, b)*GameBoardGUI.getBoardHeight()/b.getNumRows();
-		width = GameBoardGUI.getBoardLength()/b.getNumColumns();
-		height = GameBoardGUI.getBoardHeight()/b.getNumRows();
+		/*
+		x = (int) Math.round((double) (column - 1)*b.getWidth()/(double) b.getNumColumns());
+		y = (int) Math.round((double) (row - 1)*b.getHeight()/(double) b.getNumRows());
+		width = (int) getxDimension();
+		height = (int) getyDimension();
+		*/
+		
+		row = calcRow(location, b);
+		column = calcColumn(location, b);
+		x = (column)*b.getWidth()/b.getNumColumns();
+		y = (row)*b.getHeight()/(b.getNumRows());
+		width = xDimension;
+		height = yDimension;
+		
 		g.setColor(color);
 		g.fillOval(x, y, width, height);
 	}
-	
-	public Integer calcRow(int location, Board b) {
-		return location / b.getNumColumns() + 1;
+		
+	public int calcRow(int location, Board b) {
+		return location / b.getNumColumns();
 	}
 	
 	public int getLocation() {
 		return location;
 	}
 
-	public Integer calcColumn(int location, Board b) {
-		return location % b.getNumColumns() + 1;
+	public int calcColumn(int location, Board b) {
+		return location % b.getNumColumns();
+	}
+	
+	public int getxDimension() {
+		return xDimension;
+	}
+
+	public void setxDimension(int xDimension) {
+		this.xDimension = xDimension;
+	}
+	
+	public int getyDimension() {
+		return yDimension;
+	}
+
+	public void setyDimension(int yDimension) {
+		this.yDimension = yDimension;
+	}
+	
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 }

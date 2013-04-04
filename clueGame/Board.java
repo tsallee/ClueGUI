@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Board extends JPanel {
 	private boolean[] visited;
 	private int numRows;
 	private int numColumns;
+	private ArrayList<Player> players;
 	String configFileName;
 	String legendFileName;
 	
@@ -37,8 +39,9 @@ public class Board extends JPanel {
 		targets = new HashSet<BoardCell>();
 		configFileName = "ClueBoard.csv";
 		legendFileName = "Legend.txt";
+		setSize(575, 575);
+		players = new ArrayList<Player>();
 	}
-	
 	
 	//Initializes board given filenames for both the legend and configuration files.
 	public Board(String configFileName, String legendFileName) {
@@ -48,11 +51,12 @@ public class Board extends JPanel {
 		targets = new HashSet<BoardCell>();
 		this.configFileName = configFileName;
 		this.legendFileName = legendFileName;
+		setSize(600, 600);
+		players = new ArrayList<Player>();
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
 		for ( BoardCell c : cells ) {
 			if ( c.isRoom() ) {
 				c.draw(g, this);
@@ -62,6 +66,9 @@ public class Board extends JPanel {
 			if ( c.isWalkway() ) {
 				c.draw(g, this);
 			}
+		}
+		for ( Player p : players ) {
+			p.draw(g, this);
 		}
 	}
 	
@@ -155,7 +162,7 @@ public class Board extends JPanel {
 						continue;
 					}
 					
-					//If its a door, it will create a new RoomCell with appropriate door direction.
+					//If it's a door, it will create a new RoomCell with appropriate door direction.
 					if ( length > 1 ) {
 						
 						char secondChar = sepByComma[i].charAt(1);
@@ -324,7 +331,6 @@ public class Board extends JPanel {
 	
 	public void calcTargets(int space, int num) {
 		
-		
 		visited[space] = true;
 		LinkedList<Integer> adjacentCells = new LinkedList<Integer>();
 		for(Integer g : adjMtx.get(space)){
@@ -359,6 +365,26 @@ public class Board extends JPanel {
 		visited = new boolean[numRows*numColumns];
 		targets = new HashSet<BoardCell>();
 		calcTargets(calcIndex(row, col), num);
+	}
+	
+	public void updateXPixels(int xPixels) {
+		int currentDimension = (int) Math.ceil((double) xPixels / (double) getNumColumns());
+		for ( BoardCell cell : cells ) {
+			cell.setxDimension(currentDimension);
+		}
+		for ( Player p : players ) {
+			p.setxDimension(currentDimension);
+		}
+	}
+	
+	public void updateYPixels(int yPixels) {
+		int currentDimension = (int) Math.ceil((double) yPixels / (double) getNumColumns());
+		for ( BoardCell cell : cells ) {
+			cell.setyDimension(currentDimension);
+		}
+		for ( Player p : players ) {
+			p.setyDimension(currentDimension);
+		}
 	}
 	
 	public int calcIndex(int rows, int columns){
@@ -407,6 +433,14 @@ public class Board extends JPanel {
 	
 	public String getLegend(){
 		return legendFileName;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
+	
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 	
 }

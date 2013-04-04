@@ -57,11 +57,17 @@ public class RoomCell extends BoardCell {
 
 	@Override
 	public void draw(Graphics g, Board b) {
+		/*
+		x = (int) Math.round((double) (column - 1)*b.getWidth()/(double) b.getNumColumns());
+		y = (int) Math.round((double) (row - 1)*b.getHeight()/(double) b.getNumRows());
+		width = (int) getxDimension();
+		height = (int) getyDimension();
+		*/
 		
-		x = column*GameBoardGUI.getBoardLength()/b.getNumColumns();
-		y = row*GameBoardGUI.getBoardHeight()/b.getNumRows();
-		width = GameBoardGUI.getBoardLength()/b.getNumColumns();
-		height = GameBoardGUI.getBoardHeight()/b.getNumRows();
+		x = (column - 1)*b.getWidth()/b.getNumColumns();
+		y = (row - 1)*b.getHeight()/(b.getNumRows());
+		width = xDimension;
+		height = yDimension;
 		
 		if ( isDoorway() ) {
 			g.setColor(Color.BLUE);
@@ -76,7 +82,6 @@ public class RoomCell extends BoardCell {
 				g.fillRect(x, y + (div - 1)*height/div, width, height/div);
 			}
 		}
-		//g.setFont(Font.getFont("SansSerif"));
 		if ( isNameCell() ) {
 			g.setFont(f);
 			g.setColor(Color.BLUE);

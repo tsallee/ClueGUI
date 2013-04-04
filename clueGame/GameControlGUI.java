@@ -5,29 +5,36 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class GameControlGUI extends JFrame {
-
+public class GameControlGUI extends JPanel {
+	
+	private ControlTopPanel topPanel;
+	private ControlBottomPanel bottomPanel;
+	
 	public GameControlGUI() {
 		//Set up frame.
 		setSize(800, 200);
-		setTitle("Game Control GUI");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new GridLayout(2, 0));
 		
 		//Set up north panel.
-		ControlTopPanel panelNorth = new ControlTopPanel();
-		add(panelNorth);
+		topPanel = new ControlTopPanel();
+		add(topPanel);
 		
 		//Set up south panel.
-		ControlBottomPanel panelSouth = new ControlBottomPanel();
-		add(panelSouth);
+		bottomPanel = new ControlBottomPanel();
+		add(bottomPanel);
 		setVisible(true);
 
 	}
 	
-	public static void main(String[] args) {
-		GameControlGUI gameControl = new GameControlGUI();
+	public void setWhoseTurn(String s) {
+		topPanel.setWhoseTurn(s);
+		repaint();
+	}
+	
+	public void setRoll(int roll) {
+		bottomPanel.setRoll(roll);
 	}
 
 }

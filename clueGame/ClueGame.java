@@ -1,24 +1,34 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clueGame.Card.cardType;
 
-public class ClueGame extends JPanel {
+public class ClueGame extends JFrame {
+	private GameControlGUI controlPanel = new GameControlGUI();
+	private ShowHumanCardsGUI humanCardsPanel = new ShowHumanCardsGUI();
 	private Solution solution;
 	private ArrayList<Card> cards;
 	private ArrayList<Player> players;
 	private int whoseTurn;
 	private Board board;
-	
 	public Board getBoard() {
 		return board;
 	}
@@ -28,6 +38,23 @@ public class ClueGame extends JPanel {
 		players = new ArrayList<Player>();
 		cards = new ArrayList<Card>();
 		board = new Board();
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
+		
+		setLayout(new BorderLayout() );
+		setSize(800, 800);
+		setTitle("Clue Game");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		add(board, BorderLayout.CENTER);
+		add(controlPanel, BorderLayout.SOUTH);
+		add(humanCardsPanel, BorderLayout.EAST);
+		addComponentListener(new ClueComponentListener() );
+		
+		setVisible(true);
+		
 	}
 	
 	public void loadConfigFiles() {
@@ -38,6 +65,7 @@ public class ClueGame extends JPanel {
 		}
 		loadPeople();
 		loadCards();
+		board.setPlayers(players);
 	}
 	
 	public void loadPeople() {
@@ -93,18 +121,7 @@ public class ClueGame extends JPanel {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponents(g);
-		board.paintComponent(g);
-		for ( Player p : players ) {
-			p.draw(g, board);
-		}
-		drawRooms(g, board);
-	}
-
-	
+		
 	public void deal() {
 		Card card;
 		String person = "", weapon = "", room = "";
@@ -140,17 +157,7 @@ public class ClueGame extends JPanel {
 			i = (i + 1) % 6;
 		}
 	}
-	
-	private void drawRooms(Graphics g, Board b) {
-		int bigSquareX = GameBoardGUI.getBoardLength()/b.getNumColumns();
-		int bigSquareY = GameBoardGUI.getBoardHeight()/b.getNumRows();
-		int bigSquareWidth = GameBoardGUI.getBoardLength();
-		int bigSquareHeight = GameBoardGUI.getBoardHeight();
-		g.setColor(Color.BLACK);
-		g.drawRect(bigSquareX, bigSquareY, bigSquareWidth, bigSquareHeight);
 		
-	}
-	
 	public void selectAnswer(Solution s) {
 		solution = s;
 	}
@@ -186,7 +193,7 @@ public class ClueGame extends JPanel {
 		String disprove;
 		int index = 0;
 		int r = 0;
-		ArrayList<Player> p = new ArrayList(players);
+		ArrayList<Player> p = new ArrayList<Player>(players);
 		p.remove(player);
 		r = rand.nextInt(p.size());
 		for ( int i = 0; i < p.size(); ++i ) {
@@ -198,4 +205,94 @@ public class ClueGame extends JPanel {
 		return null;
 	}
 	
+	private JMenu createFileMenu() {
+		  JMenu menu = new JMenu("File");
+		  menu.add(createDetectiveNotesItem());
+		  menu.add(createFileExitItem());
+		  return menu;
+		}
+	
+	private JMenuItem createFileExitItem() {
+		JMenuItem item = new JMenuItem("Exit");
+		class MenuItemListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
+	}
+	
+	private JMenuItem createDetectiveNotesItem() {
+		JMenuItem item = new JMenuItem("Detective Notes");
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DetectiveNotesDialog detectiveDialog = new DetectiveNotesDialog();
+				detectiveDialog.setVisible(true);
+			}
+	    });
+		return item;
+	}
+	
+	public class ClueComponentListener implements ComponentListener {
+
+		@Override
+		public void componentHidden(ComponentEvent arg0) {
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent arg0) {			
+		}
+
+		@Override
+		public void componentResized(ComponentEvent arg0) {
+			Board theBoard = ( (ClueGame) arg0.getComponent()).board;
+			theBoard.updateXPixels(theBoard.getWidth());
+			theBoard.updateYPixels(theBoard.getHeight());
+		}
+
+		@Override
+		public void componentShown(ComponentEvent arg0) {
+		}
+	}
+	
+	public String displayWhoseTurn() {
+		return players.get(whoseTurn).getName();
+	}
+	
+	public int roll() {
+		Random rand = new Random();
+		int r = 0;
+		while ( r == 0 ) {
+			r = rand.nextInt(7);
+		}
+		return r;
+	}
+	
+	public void setUpTurn() {
+		controlPanel.setWhoseTurn(displayWhoseTurn());
+		controlPanel.setRoll(roll());
+		//board.repaint();
+	}
+	
+	
+	public void play() {
+		//Setup stuff
+		loadConfigFiles();
+		deal();
+		humanCardsPanel.setHumanCards(players.get(0).getCards());
+		board.repaint();
+		JOptionPane popup = new JOptionPane();
+		String message = "You are Miss Scarlet. Press Next Player to begin.\n Hint: Use File > Detective Notes to help you win!";
+		popup.showMessageDialog(this, message, "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);	
+		
+		//Each turn
+		setUpTurn();
+		
+	}
+	
+	public static void main(String[] args) {
+		ClueGame game = new ClueGame();
+		game.play();
+	}
 }

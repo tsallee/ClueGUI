@@ -11,17 +11,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 public class ControlBottomPanel extends JPanel {
-
+		private JTextField rollField;
 	public ControlBottomPanel()
 	{
 		setLayout(new GridLayout(0, 3));
 		
 		JPanel die = new JPanel();
 		JLabel roll = new JLabel("Roll");
-		JTextField rollReturn = new JTextField(10);
-		rollReturn.setEditable(false);
+		rollField = new JTextField(10);
+		rollField.setEditable(false);
 		die.add(roll);
-		die.add(rollReturn);
+		die.add(rollField);
 		die.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 		add(die);
 		
@@ -42,9 +42,11 @@ public class ControlBottomPanel extends JPanel {
 		resultField.setEditable(false);
 		result.add(resultField);
 		add(result);
-
 		
-		
+	}
+	
+	public void setRoll(int roll) {
+		rollField.setText(Integer.toString(roll));
 	}
 
 }

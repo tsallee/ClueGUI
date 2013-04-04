@@ -16,15 +16,22 @@ public class WalkwayCell extends BoardCell {
 
 	@Override
 	public void draw(Graphics g, Board b) {
-		x = column*GameBoardGUI.getBoardLength()/b.getNumColumns();
-		y = row*GameBoardGUI.getBoardHeight()/b.getNumRows();
-		width = GameBoardGUI.getBoardLength()/b.getNumColumns();
-		height = GameBoardGUI.getBoardHeight()/b.getNumRows();
+		/*
+		x = (int) Math.round((double) (column - 1)*b.getWidth()/(double) b.getNumColumns());
+		y = (int) Math.round((double) (row - 1)*b.getHeight()/(double) b.getNumRows());
+		width = (int) getxDimension();
+		height = (int) getyDimension();
+		*/
+		
+		x = (column - 1)*b.getWidth()/b.getNumColumns();
+		y = (row - 1)*b.getHeight()/(b.getNumRows());
+		width = xDimension;
+		height = yDimension;
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(x, y, width, height);
 		g.setColor(Color.WHITE);
 		g.drawRect(x, y, width, height);
+		
 	}
-	
-
 }

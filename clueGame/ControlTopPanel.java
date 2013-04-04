@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ControlTopPanel extends JPanel {
-	
+		private JTextField whoseTurnField;
 	public ControlTopPanel() {
 		setLayout(new GridLayout(0,3));
 		JPanel questionPanel = new JPanel();
@@ -23,9 +23,10 @@ public class ControlTopPanel extends JPanel {
 		centeredLabel.add(label);
 		JPanel centeredText = new JPanel();
 		centeredText.setLayout(new GridBagLayout());
-		JTextField textField = new JTextField(15);
-		textField.setFont(new Font("SansSerif", Font.BOLD, 12));
-		centeredText.add(textField);
+		whoseTurnField = new JTextField(15);
+		whoseTurnField.setFont(new Font("SansSerif", Font.BOLD, 12));
+		whoseTurnField.setEditable(false);
+		centeredText.add(whoseTurnField);
 		questionPanel.add(centeredLabel);
 		questionPanel.add(centeredText);
 		add(questionPanel);
@@ -37,6 +38,11 @@ public class ControlTopPanel extends JPanel {
 		//Add the accusation button.
 		JButton accusationButton = new JButton("Make an accusation");
 		add(accusationButton);
+	}
+	
+	public void setWhoseTurn(String s) {
+		whoseTurnField.setText(s);
+		repaint();
 	}
 
 }

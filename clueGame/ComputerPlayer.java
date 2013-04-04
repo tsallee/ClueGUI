@@ -25,6 +25,10 @@ public class ComputerPlayer extends Player {
 		seen = new ArrayList<Card>();
 	}
 	
+	public void makeMove(Set<BoardCell> targets) {
+		BoardCell targetLocation = pickLocation(targets);
+	}
+	
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		Random rand = new Random();
 		int r = 0;
