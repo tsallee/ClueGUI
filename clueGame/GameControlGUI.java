@@ -9,16 +9,18 @@ import javax.swing.JPanel;
 
 public class GameControlGUI extends JPanel {
 	
+	private ClueGame game;
 	private ControlTopPanel topPanel;
 	private ControlBottomPanel bottomPanel;
 	
-	public GameControlGUI() {
+	public GameControlGUI(ClueGame g) {
+		this.game = g;
 		//Set up frame.
 		setSize(800, 200);
 		setLayout(new GridLayout(2, 0));
 		
 		//Set up north panel.
-		topPanel = new ControlTopPanel();
+		topPanel = new ControlTopPanel(game);
 		add(topPanel);
 		
 		//Set up south panel.

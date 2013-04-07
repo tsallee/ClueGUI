@@ -1,7 +1,10 @@
 package clueGame;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import javax.swing.JPanel;
 
 import clueGame.RoomCell.DoorDirection;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 	
 	//All instance variables needed for the board class.
 	private ArrayList<BoardCell> cells;
@@ -28,8 +31,12 @@ public class Board extends JPanel {
 	private int numRows;
 	private int numColumns;
 	private ArrayList<Player> players;
+	private ArrayList<Rectangle> highlightedRectangles;
+	private BoardCell cellSelected = new BoardCell();
+	private ClueGame game;
 	String configFileName;
 	String legendFileName;
+	boolean mouseClicked = false;
 	
 	//Initializes board with default file names.
 	public Board() {
@@ -41,6 +48,8 @@ public class Board extends JPanel {
 		legendFileName = "Legend.txt";
 		setSize(575, 575);
 		players = new ArrayList<Player>();
+		highlightedRectangles = new ArrayList<Rectangle>();
+		addMouseListener(this);
 	}
 	
 	//Initializes board given filenames for both the legend and configuration files.
@@ -53,10 +62,13 @@ public class Board extends JPanel {
 		this.legendFileName = legendFileName;
 		setSize(600, 600);
 		players = new ArrayList<Player>();
+		highlightedRectangles = new ArrayList<Rectangle>();
+		addMouseListener(this);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		for ( BoardCell c : cells ) {
 			if ( c.isRoom() ) {
 				c.draw(g, this);
@@ -70,6 +82,40 @@ public class Board extends JPanel {
 		for ( Player p : players ) {
 			p.draw(g, this);
 		}
+		
+		for ( Rectangle r : highlightedRectangles) {
+			g.setColor(Color.CYAN);
+			g.fillRect(r.x, r.y, r.width, r.height);
+		}
+	}
+	
+	public void highlightTargets(Set<BoardCell> targets) {
+		for ( BoardCell cell : targets) {
+			Rectangle r = new Rectangle(cell.getX(), cell.getY(), cell.getxDimension(), cell.getyDimension());
+			highlightedRectangles.add(r);
+		}
+		repaint();
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent event) {
+		mouseClicked = true;
+		int row = getRow(event.getY());
+		int column = getColumn(event.getX());
+		cellSelected = getCellAt(calcIndex(row, column));
+		game.getCurrentPlayer().checkSelectedCell(cellSelected);
+	}
+
+	public BoardCell pickHumanMoveLocation() {
+		return cellSelected;
+	}
+	
+	public int getColumn(int x) {
+		return x/(this.getWidth()/this.getNumColumns());
+	}
+	
+	public int getRow(int y) {
+		return y/(this.getHeight()/this.getNumRows());
 	}
 	
 	//Loads the configuration of the board by calling helper functions.
@@ -441,6 +487,30 @@ public class Board extends JPanel {
 	
 	public void setPlayers(ArrayList<Player> players) {
 		this.players = players;
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+	}
+	
+	public void setGame(ClueGame game) {
+		this.game = game;
+	}
+	
+	public ArrayList<Rectangle> getHighlightedRectangles() {
+		return highlightedRectangles;
 	}
 	
 }

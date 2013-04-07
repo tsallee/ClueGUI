@@ -16,13 +16,6 @@ public class WalkwayCell extends BoardCell {
 
 	@Override
 	public void draw(Graphics g, Board b) {
-		/*
-		x = (int) Math.round((double) (column - 1)*b.getWidth()/(double) b.getNumColumns());
-		y = (int) Math.round((double) (row - 1)*b.getHeight()/(double) b.getNumRows());
-		width = (int) getxDimension();
-		height = (int) getyDimension();
-		*/
-		
 		x = (column - 1)*b.getWidth()/b.getNumColumns();
 		y = (row - 1)*b.getHeight()/(b.getNumRows());
 		width = xDimension;

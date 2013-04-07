@@ -26,7 +26,10 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void makeMove(Set<BoardCell> targets) {
-		BoardCell targetLocation = pickLocation(targets);
+		game.setHumanMustFinish(false);
+		cellSelected = pickLocation(targets);
+		this.location = board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1);
+		board.repaint();
 	}
 	
 	public BoardCell pickLocation(Set<BoardCell> targets) {
@@ -78,16 +81,11 @@ public class ComputerPlayer extends Player {
 			card = cards.get(r);
 			if ( card.getType() == Card.cardType.PERSON && person == "") {
 				person = card.getName();
-				//System.out.println(person);
 				cards.remove(rand);
 			}
 			else if ( card.getType() == Card.cardType.WEAPON && weapon == "") {
 				weapon = card.getName();
-				//System.out.println(weapon);
 				cards.remove(rand);
-			}
-			else {
-				//System.out.println(card);
 			}
 			if ( person != "" && weapon != "" )
 				break;			

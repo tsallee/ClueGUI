@@ -60,8 +60,8 @@ public class GameActionTests {
 		
 		cells = board.getCells();
 		game = new ClueGame();
-		game.loadConfigFiles();
-		game.deal();
+		//game.loadConfigFiles();
+		//game.deal();
 		players = game.getPlayers();
 		cards = game.getCards();
 		

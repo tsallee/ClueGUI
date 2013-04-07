@@ -4,16 +4,22 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class ControlTopPanel extends JPanel {
 		private JTextField whoseTurnField;
-	public ControlTopPanel() {
+		private ClueGame game;
+		
+	public ControlTopPanel(ClueGame g) {
+		this.game = g;
 		setLayout(new GridLayout(0,3));
 		JPanel questionPanel = new JPanel();
 		questionPanel.setLayout(new GridLayout(3, 0));
@@ -32,17 +38,47 @@ public class ControlTopPanel extends JPanel {
 		add(questionPanel);
 		
 		//Add the next player button.
-		JButton nextPlayer = new JButton("Next Player");
+		JButton nextPlayer = createNextPlayerButton(game);
 		add(nextPlayer);
 		
 		//Add the accusation button.
-		JButton accusationButton = new JButton("Make an accusation");
+		JButton accusationButton = createAccusationButton(game);
 		add(accusationButton);
 	}
 	
 	public void setWhoseTurn(String s) {
 		whoseTurnField.setText(s);
 		repaint();
+	}
+	
+	private JButton createNextPlayerButton(ClueGame g) {
+		JButton button = new JButton("Next Player");
+		class ButtonListener implements ActionListener {
+			private ClueGame game;
+			public ButtonListener(ClueGame game) {
+				this.game = game;
+			}
+			public void actionPerformed(ActionEvent e) {
+				game.nextTurn();
+			}
+		}
+		button.addActionListener(new ButtonListener(g));
+		return button;
+	}
+	
+	private JButton createAccusationButton(ClueGame g) {
+		JButton button = new JButton("Make an Accusation");
+		class ButtonListener implements ActionListener {
+			private ClueGame game;
+			public ButtonListener(ClueGame game) {
+				this.game = game;
+			}
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		}
+		button.addActionListener(new ButtonListener(game));
+		return button;
 	}
 
 }

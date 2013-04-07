@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,13 +23,16 @@ import javax.swing.JPanel;
 import clueGame.Card.cardType;
 
 public class ClueGame extends JFrame {
-	private GameControlGUI controlPanel = new GameControlGUI();
+	private GameControlGUI controlPanel;
 	private ShowHumanCardsGUI humanCardsPanel = new ShowHumanCardsGUI();
 	private Solution solution;
 	private ArrayList<Card> cards;
 	private ArrayList<Player> players;
 	private int whoseTurn;
 	private Board board;
+	private boolean humanMustFinish = false;
+	private Player currentPlayer;
+
 	public Board getBoard() {
 		return board;
 	}
@@ -47,6 +51,11 @@ public class ClueGame extends JFrame {
 		setSize(800, 800);
 		setTitle("Clue Game");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		loadConfigFiles();
+		deal();
+		
+		controlPanel = new GameControlGUI(this);
 		
 		add(board, BorderLayout.CENTER);
 		add(controlPanel, BorderLayout.SOUTH);
@@ -263,36 +272,58 @@ public class ClueGame extends JFrame {
 	public int roll() {
 		Random rand = new Random();
 		int r = 0;
-		while ( r == 0 ) {
-			r = rand.nextInt(7);
-		}
+		r = rand.nextInt(6) + 1;
 		return r;
 	}
 	
-	public void setUpTurn() {
-		controlPanel.setWhoseTurn(displayWhoseTurn());
-		controlPanel.setRoll(roll());
-		//board.repaint();
+	public void nextTurn() {
+		if (!humanMustFinish) {
+			humanMustFinish = true;
+			int roll = roll();
+			controlPanel.setRoll(roll);
+			currentPlayer = players.get(whoseTurn);
+			controlPanel.setWhoseTurn(displayWhoseTurn());
+			this.board.calcTargets(currentPlayer.getRow(), currentPlayer.getColumn(), roll);
+			Set<BoardCell> targets = this.board.getTargets();
+			currentPlayer.makeMove(targets);
+			if (whoseTurn < 5) {
+				++whoseTurn;
+			} else if ( whoseTurn == 5 ) {
+				whoseTurn = 0;
+			}
+		}
 	}
 	
 	
-	public void play() {
-		//Setup stuff
-		loadConfigFiles();
-		deal();
+	public void setup() {
 		humanCardsPanel.setHumanCards(players.get(0).getCards());
+		for ( Player p : players ) {
+			p.setBoard(board);
+			p.setGame(this);
+		}
+		board.setGame(this);
 		board.repaint();
 		JOptionPane popup = new JOptionPane();
 		String message = "You are Miss Scarlet. Press Next Player to begin.\n Hint: Use File > Detective Notes to help you win!";
-		popup.showMessageDialog(this, message, "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);	
-		
+		popup.showMessageDialog(this, message, "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void play() {		
 		//Each turn
-		setUpTurn();
-		
+		//setUpTurn();
 	}
 	
 	public static void main(String[] args) {
 		ClueGame game = new ClueGame();
+		game.setup();
 		game.play();
+	}
+	
+	public void setHumanMustFinish(boolean humanMustFinish) {
+		this.humanMustFinish = humanMustFinish;
+	}
+	
+	public Player getCurrentPlayer() {
+		return currentPlayer;
 	}
 }

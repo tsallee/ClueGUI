@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -23,7 +24,11 @@ public class Player {
 	protected int yDimension;
 	protected int xDimension;
 	
+	protected BoardCell cellSelected;
+	protected Set<BoardCell> targets;
+	
 	protected Board board;
+	protected ClueGame game;
 	
 	public Player() {
 		name = null;
@@ -115,6 +120,10 @@ public class Player {
 		return suggestion;
 	}
 	
+	public void makeMove(Set<BoardCell> targetList) {
+		
+	}
+	
 	public Color convertColor(String strColor) {
 		Color color; 
 		try {     
@@ -128,12 +137,6 @@ public class Player {
 	}
 	
 	public void draw(Graphics g, Board b) {
-		/*
-		x = (int) Math.round((double) (column - 1)*b.getWidth()/(double) b.getNumColumns());
-		y = (int) Math.round((double) (row - 1)*b.getHeight()/(double) b.getNumRows());
-		width = (int) getxDimension();
-		height = (int) getyDimension();
-		*/
 		
 		row = calcRow(location, b);
 		column = calcColumn(location, b);
@@ -177,4 +180,21 @@ public class Player {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
+	
+	public void setGame(ClueGame game) {
+		this.game = game;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
+	
+	public void checkSelectedCell(BoardCell cell) {
+		
+	}
+	
 }

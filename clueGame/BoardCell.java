@@ -11,8 +11,8 @@ public class BoardCell {
 	protected int width, height, x, y;
 
 	public BoardCell() {
-		row = 0;
-		column = 0;
+		row = -1;
+		column = -1;
 	}
 
 	public BoardCell(Integer row, Integer column){
@@ -21,6 +21,7 @@ public class BoardCell {
 	}
 	
 	public void draw(Graphics g, Board b) {
+		
 	}
 	
 	public boolean isWalkway(){
@@ -57,6 +58,22 @@ public class BoardCell {
 
 	public void setxDimension(int xDimension) {
 		this.xDimension = xDimension;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		BoardCell cell = (BoardCell) o;
+		if(row.equals(cell.row) && column.equals(cell.row))
+			return true;
+		return false;
 	}
 
 }
