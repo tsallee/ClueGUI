@@ -38,5 +38,14 @@ public class GameControlGUI extends JPanel {
 	public void setRoll(int roll) {
 		bottomPanel.setRoll(roll);
 	}
+	
+	public void setGuess(String guess) {
+		bottomPanel.setGuess(guess);
+	}
+	
+	public void setResult(String result) {
+		bottomPanel.setResult(result);
+	}
+
 
 }

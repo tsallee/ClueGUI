@@ -28,6 +28,6 @@ public class Suggestion {
 	}
 	
 	public String toString() {
-		return person + " " + room + " " + weapon;
+		return person + " in the " + room + " with the " + weapon;
 	}
 }

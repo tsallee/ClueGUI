@@ -9,25 +9,53 @@ import clueGame.BoardCell;
 public class ComputerPlayer extends Player {
 	private char lastRoomVisited;
 	private ArrayList<Card> seen;
+	private boolean makeAccusation;
 	
 	public ComputerPlayer() {
 		super();
 		seen = new ArrayList<Card>();
+		makeAccusation = false;
 	}
 	
 	public ComputerPlayer(String name, int location) {
 		super(name, location);
 		seen = new ArrayList<Card>();
+		makeAccusation = false;
 	}
 	
 	public ComputerPlayer(String name, int location, String color) {
 		super(name, location, color);
 		seen = new ArrayList<Card>();
+		makeAccusation = false;
 	}
 	
 	public void makeMove(Set<BoardCell> targets) {
+		if (makeAccusation) {
+			
+		}
 		game.setHumanMustFinish(false);
 		cellSelected = pickLocation(targets);
+		
+		if (cellSelected.isRoom()) {
+			lastRoomVisited = ((RoomCell) cellSelected).getInitial();
+			String currentRoom = ((RoomCell) cellSelected).getName();
+			createSuggestion(currentRoom, game.getCards());
+			game.getControlPanel().setGuess(suggestion.toString());
+			String disprove = game.handleSuggestion(this);
+			game.getControlPanel().setResult(disprove);
+			String target = suggestion.getPerson();
+			for (Player p: game.getPlayers()) {
+				if (target.equals(p.getName())) {
+					p.setLocation(board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1));
+					break;
+				}
+			}
+			
+			if (disprove == null) {
+				makeAccusation = true;
+			}
+			board.repaint();
+		}
 		this.location = board.calcIndex(cellSelected.getRow() - 1, cellSelected.getColumn() - 1);
 		board.repaint();
 	}
@@ -40,7 +68,7 @@ public class ComputerPlayer extends Player {
 		for ( BoardCell bc : targets ) {
 			if ( bc.isRoom() ) {
 				RoomCell cell = (RoomCell) bc;
-				if ( lastRoomVisited == cell.getInitial() )
+				if ( lastRoomVisited != cell.getInitial() )
 					return bc;
 			}
 		}
@@ -59,38 +87,36 @@ public class ComputerPlayer extends Player {
 		updateSeen(card);
 	}
 	
-	public void createSuggestion(String room, ArrayList<Card> cards) {
-		this.cards = new ArrayList<Card>(cards);
-		createSuggestion(room);
-	}
 	
-	public void createSuggestion(String room) {
+	
+	public void createSuggestion(String room, ArrayList<Card> cards) {
 		Random rand = new Random();
 		Card card;
 		int r = 0;
 		String person = "";
 		String weapon = "";
 		
+		ArrayList<Card> suggestionPool = new ArrayList<Card>(cards);
+		
 		for( Card cardSeen : seen ) {
-			if ( cards.contains(cardSeen) )
-				cards.remove(cardSeen);
+			if ( suggestionPool.contains(cardSeen) )
+				suggestionPool.remove(cardSeen);
 		}
 		
-		while ( cards.size() > 0 ) {
-			r = rand.nextInt(cards.size());
-			card = cards.get(r);
+		while ( suggestionPool.size() > 0 ) {
+			r = rand.nextInt(suggestionPool.size());
+			card = suggestionPool.get(r);
 			if ( card.getType() == Card.cardType.PERSON && person == "") {
 				person = card.getName();
-				cards.remove(rand);
+				suggestionPool.remove(card);
 			}
 			else if ( card.getType() == Card.cardType.WEAPON && weapon == "") {
 				weapon = card.getName();
-				cards.remove(rand);
+				suggestionPool.remove(card);
 			}
 			if ( person != "" && weapon != "" )
 				break;			
 		}
-		
 		suggestion = new Suggestion(person, room, weapon);
 	}
 	

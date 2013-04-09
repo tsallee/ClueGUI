@@ -41,7 +41,31 @@ public class RoomCell extends BoardCell {
 	}
 	
 	public String getName() {
-		return name;
+		if ( initial == 'S' )
+			return "Study";
+		else if ( initial == 'H')
+			return "Hall";
+		else if ( initial == 'O')
+			return "Lounge";
+		else if ( initial == 'H')
+			return "Hall";
+		else if ( initial == 'L')
+			return "Library";
+		else if ( initial == 'D')
+			return "Dining Room";
+		else if ( initial == 'B')
+			return "Billiard Room";
+		else if ( initial == 'C')
+			return "Conservatory";
+		else if ( initial == 'A')
+			return "Ballroom";
+		else if ( initial == 'K')
+			return "Kitchen";
+		else if ( initial == 'X')
+			return "Closet";
+		else {
+			return "";
+		}
 	}
 	
 	public void setName(String name) {

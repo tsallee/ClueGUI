@@ -8,8 +8,6 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
-import com.sun.xml.internal.bind.v2.runtime.Location;
-
 public class Player {
 	
 	protected int row, column;
@@ -63,7 +61,7 @@ public class Player {
 		Random rand = new Random();
 		int r = 0;
 		ArrayList<Card> temp = new ArrayList<Card>();
-
+				
 		// If the player has any of the cards, add them to a temporary list.
 		if ( cards.contains(person) )
 			temp.add(person);
@@ -149,6 +147,10 @@ public class Player {
 		g.fillOval(x, y, width, height);
 	}
 		
+	public void setLocation(int location) {
+		this.location = location;
+	}
+
 	public int calcRow(int location, Board b) {
 		return location / b.getNumColumns();
 	}
@@ -177,6 +179,14 @@ public class Player {
 		this.yDimension = yDimension;
 	}
 	
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
+	}
+
 	public void setBoard(Board board) {
 		this.board = board;
 	}

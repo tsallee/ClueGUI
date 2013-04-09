@@ -111,11 +111,11 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	public int getColumn(int x) {
-		return x/(this.getWidth()/this.getNumColumns());
+		return (int) Math.floor(x/(((double) this.getWidth())/this.getNumColumns()));
 	}
 	
 	public int getRow(int y) {
-		return y/(this.getHeight()/this.getNumRows());
+		return (int) Math.floor(y/(((double) this.getHeight())/this.getNumRows()));
 	}
 	
 	//Loads the configuration of the board by calling helper functions.
@@ -208,7 +208,7 @@ public class Board extends JPanel implements MouseListener {
 						continue;
 					}
 					
-					//If it's a door, it will create a new RoomCell with appropriate door direction.
+					//If it's a door or name cell, it will create a new RoomCell with appropriate door direction.
 					if ( length > 1 ) {
 						
 						char secondChar = sepByComma[i].charAt(1);
@@ -222,9 +222,10 @@ public class Board extends JPanel implements MouseListener {
 						else if ( secondChar == 'L' )
 							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.LEFT));
 						
-						else if ( secondChar == 'R' )
+						else if ( secondChar == 'R' ) {
 							cells.add(new RoomCell(rowCounter, i+1, firstChar, DoorDirection.RIGHT));
-						
+							
+						}
 						else {
 							RoomCell rc = new RoomCell(rowCounter, i+1, firstChar, DoorDirection.NONE);
 							if ( firstChar == 'S' )

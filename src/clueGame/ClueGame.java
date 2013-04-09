@@ -295,6 +295,10 @@ public class ClueGame extends JFrame {
 	}
 	
 	
+	public GameControlGUI getControlPanel() {
+		return controlPanel;
+	}
+
 	public void setup() {
 		humanCardsPanel.setHumanCards(players.get(0).getCards());
 		for ( Player p : players ) {
